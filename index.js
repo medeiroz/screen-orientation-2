@@ -1,9 +1,7 @@
-'use strict'
-
 const window = require('global/window')
 
-let handlerCallback
-let useOrientation
+var handlerCallback
+var useOrientation
 
 function setUseOrientation () {
   useOrientation = true
@@ -14,13 +12,21 @@ function setUseWindowSize () {
 }
 
 function getScreenOrientation (orientationEvent) {
-  const { type, angle } = orientationEvent || getOrientation()
-  const [direction, version] = type.split('-')
+  const orientation = orientationEvent !== undefined
+    ? orientationEvent
+    : getOrientation()
+
+  const type = orientation.type
+  const angle = orientation.angle
+
+  const types = type.split('-')
+  const direction = types[0]
+  const version = types[1]
 
   return {
-    direction,
-    version,
-    angle
+    direction: direction,
+    version: version,
+    angle: angle
   }
 }
 
